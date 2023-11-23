@@ -15,6 +15,8 @@
     <option value="image5.png">Imagem 5</option>
   </select>
   <br>
+  <input type="file" id="fileInput">
+  <br>
   <input type="checkbox" id="applyBlur"> Aplicar Filtro Gaussiano
   <br>
   <input type="checkbox" id="applyMedian"> Aplicar Mediana
@@ -34,6 +36,7 @@
   <br>
   <canvas id="originalCanvas" width="640" height="480"></canvas>
   <canvas id="filteredCanvas" width="640" height="480"></canvas>
+  <br><br><button id="downloadButton">Baixar imagem filtrada</button>
   <script src="script.js"></script>
 </body>
 

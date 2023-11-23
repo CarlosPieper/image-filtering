@@ -6,15 +6,29 @@ function loadImage() {
   let filteredCanvas = document.getElementById('filteredCanvas');
   let originalCtx = originalCanvas.getContext('2d');
   let filteredCtx = filteredCanvas.getContext('2d');
+  let fileInput = document.getElementById('fileInput');
 
   let img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = function () {
-    originalCtx.drawImage(img, 0, 0, originalCanvas.width, originalCanvas.height);
-
-    applyFilters(originalCtx, filteredCtx);
-  };
-  img.src = selectedImage;
+  var file = fileInput.files[0];
+  if (useFile) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      img.onload = function () {
+        originalCtx.drawImage(img, 0, 0, originalCanvas.width, originalCanvas.height);
+        applyFilters(originalCtx, filteredCtx);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+  else {
+    img.crossOrigin = 'Anonymous';
+    img.onload = function () {
+      originalCtx.drawImage(img, 0, 0, originalCanvas.width, originalCanvas.height);
+      applyFilters(originalCtx, filteredCtx);
+    };
+    img.src = selectedImage;
+  }
 }
 
 function applyFilters(originalCtx, filteredCtx) {
@@ -212,7 +226,25 @@ document.getElementById('grayScaleSlider').addEventListener('input', loadImage);
 document.getElementById('isolateRedColorSlider').addEventListener('input', loadImage);
 document.getElementById('isolateGreenColorSlider').addEventListener('input', loadImage);
 document.getElementById('isolateBlueColorSlider').addEventListener('input', loadImage);
-document.getElementById('imageSelect').addEventListener('change', loadImage);
 document.getElementById('applyBlur').addEventListener('change', loadImage);
 document.getElementById('applyMedian').addEventListener('change', loadImage);
+
+document.getElementById('imageSelect').addEventListener('change', () => {
+  useFile = false;
+  loadImage();
+});
+document.getElementById('fileInput').addEventListener('change', () => {
+  useFile = true;
+  loadImage();
+});
+
+var downloadButton = document.getElementById('downloadButton');
+downloadButton.addEventListener('click', function () {
+  var link = document.createElement('a');
+  link.download = 'image.png';
+  link.href = document.getElementById('filteredCanvas').toDataURL('image/png');
+  link.click();
+});
+
+let useFile = false;
 loadImage();
