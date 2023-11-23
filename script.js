@@ -208,21 +208,6 @@ function applyGrayScale(imageData, sliderValue) {
   return newImageData;
 }
 
-const insertionSort = (arr) => {
-  for (let i = 1; i < arr.length; ++i) {
-    const atual = arr[i];
-
-    let j = i - 1;
-    while ((j > -1) && (atual < arr[j])) {
-      arr[j + 1] = arr[j];
-      j--;
-    }
-    arr[j + 1] = atual;
-  }
-
-  return arr;
-}
-
 document.getElementById('grayScaleSlider').addEventListener('input', loadImage);
 document.getElementById('isolateRedColorSlider').addEventListener('input', loadImage);
 document.getElementById('isolateGreenColorSlider').addEventListener('input', loadImage);
