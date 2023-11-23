@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Filtros em Canvas</title>
+</head>
+
+<body>
+  <select id="imageSelect">
+    <option value="image1.jpg">Imagem 1</option>
+    <option value="image2.jpg">Imagem 2</option>
+    <option value="image3.jpg">Imagem 3</option>
+    <option value="image4.jpg">Imagem 4</option>
+    <option value="image5.png">Imagem 5</option>
+  </select>
+  <br>
+  <input type="checkbox" id="applyBlur"> Aplicar Filtro Gaussiano
+  <br>
+  <input type="checkbox" id="applyMedian"> Aplicar Mediana
+  <br>
+  <label for="grayScaleSlider">Filtro de Tons de Cinza:</label>
+  <input type="range" min="0" max="255" value="0" id="grayScaleSlider">
+  <br>
+  <label for="isolateRedColorSlider">Vermelho:</label>
+  <input type="range" min="0" max="100" value="100" id="isolateRedColorSlider">
+  <br>
+  <label for="isolateGreenColorSlider">Verde:</label>
+  <input type="range" min="0" max="100" value="100" id="isolateGreenColorSlider">
+  <br>
+  <label for="isolateBlueColorSlider">Azul:</label>
+  <input type="range" min="0" max="100" value="100" id="isolateBlueColorSlider">
+  <br>
+  <br>
+  <canvas id="originalCanvas" width="640" height="480"></canvas>
+  <canvas id="filteredCanvas" width="640" height="480"></canvas>
+  <script src="script.js"></script>
+</body>
+
+</html>
