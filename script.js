@@ -99,7 +99,6 @@ function applyGaussianBlur(imageData, blurRadius) {
 
 function applyMedianFilter(imageData, counter) {
   var data = imageData.data.slice();
-  var data = imageData.data.slice(); // Criando uma cópia dos dados da imagem original
   var width = imageData.width;
   var height = imageData.height;
   var newImageData = new ImageData(new Uint8ClampedArray(data), width, height);
@@ -125,52 +124,28 @@ function applyMedianFilter(imageData, counter) {
         }
       }
 
-      function quickSelect(arr, k) {
-        function partition(left, right, pivotIndex) {
-          var pivotValue = arr[pivotIndex];
-          var temp = arr[pivotIndex];
-          arr[pivotIndex] = arr[right];
-          arr[right] = temp;
-          var storeIndex = left;
-
-          for (var i = left; i < right; i++) {
-            if (arr[i] < pivotValue) {
-              temp = arr[i];
-              arr[i] = arr[storeIndex];
-              arr[storeIndex] = temp;
-              storeIndex++;
+      function bubbleSort(arr) {
+        var len = arr.length;
+        for (var i = 0; i < len - 1; i++) {
+          for (var j = 0; j < len - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+              var temp = arr[j];
+              arr[j] = arr[j + 1];
+              arr[j + 1] = temp;
             }
           }
-          temp = arr[storeIndex];
-          arr[storeIndex] = arr[right];
-          arr[right] = temp;
-
-          return storeIndex;
         }
-
-        function select(left, right, k) {
-          if (left === right) return arr[left];
-
-          var pivotIndex = Math.floor(Math.random() * (right - left + 1)) + left;
-          pivotIndex = partition(left, right, pivotIndex);
-
-          if (k === pivotIndex) {
-            return arr[k];
-          } else if (k < pivotIndex) {
-            return select(left, pivotIndex - 1, k);
-          } else {
-            return select(pivotIndex + 1, right, k);
-          }
-        }
-
-        return select(0, arr.length - 1, k);
       }
 
-      var medianIndex = Math.floor(redValues.length / 2); // Encontra o índice central
-      newImageData.data[(y * width + x) * 4] = quickSelect(redValues.slice(), medianIndex);
-      newImageData.data[(y * width + x) * 4 + 1] = quickSelect(greenValues.slice(), medianIndex);
-      newImageData.data[(y * width + x) * 4 + 2] = quickSelect(blueValues.slice(), medianIndex);
-      newImageData.data[(y * width + x) * 4 + 3] = data[(y * width + x) * 4 + 3]; // Mantém o canal alfa inalterado
+      bubbleSort(redValues);
+      bubbleSort(greenValues);
+      bubbleSort(blueValues);
+
+      var medianIndex = Math.floor(redValues.length / 2);
+      newImageData.data[(y * width + x) * 4] = redValues[medianIndex];
+      newImageData.data[(y * width + x) * 4 + 1] = greenValues[medianIndex];
+      newImageData.data[(y * width + x) * 4 + 2] = blueValues[medianIndex];
+      newImageData.data[(y * width + x) * 4 + 3] = data[(y * width + x) * 4 + 3];
     }
   }
 
@@ -180,6 +155,7 @@ function applyMedianFilter(imageData, counter) {
   else
     return applyMedianFilter(newImageData, counter);
 }
+
 
 function isolatePrimaryColors(imageData, redPercentage, greenPercentage, bluePercentage) {
   var data = imageData.data;
